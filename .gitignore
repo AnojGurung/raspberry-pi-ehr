@@ -1,0 +1,9 @@
+ehr.db
+env/
+venv/
+__pycache__/
+*.pyc
+patient_photos/
+docuements/
+.env
+

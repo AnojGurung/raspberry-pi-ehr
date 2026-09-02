@@ -97,6 +97,8 @@ while True:
     
     choice = int(input("Choose an option: "))
     if choice == 1:
+        print("CHOICE:", choice)
+        print("TYPE:", type(choice))
         register_patient()
         
     elif choice == 2:

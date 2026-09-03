@@ -88,12 +88,32 @@ def show_patients():
             f"Condition: {patient[5]} |"
             f"Allergies: {patient[6]} |"
             )
+def find_patients():
+    patient_id = int(input("Enter patient Id: "))
+    
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    
+    cursor.execute(
+                "SELECT * FROM patients WHERE id = ?", (patient_id,)
+                )
+    patient = cursor.fetchone()
+    conn.close()
+    
+    if patient:
+        print("\n---Patient Found---")
+        print(patient)
+        
+    else:
+        print("Patient not found.")
+        
 
 while True:
     print("\n---PATIENT MENU---")
     print("1. Register a new patient")
     print("2. Show Patients")
-    print("3. Exit")
+    print("3. Find Patients")
+    print("4. Exit")
     
     choice = int(input("Choose an option: "))
     if choice == 1:
@@ -105,12 +125,15 @@ while True:
         show_patients()
         
     elif choice == 3:
+        find_patients()
+        
+    elif choice == 4:
         print("Exiting Patient System.")
         break
+    
     else:
         print("invalid Choice.")
         
         
-        
-        
+
         

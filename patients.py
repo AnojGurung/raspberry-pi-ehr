@@ -1,19 +1,25 @@
 import sqlite3
 
+from validation import (get_valid_name,
+                        get_valid_dob,
+                        get_valid_sex,
+                        get_valid_phone,
+                        get_valid_medical_text)
+
 DATABASE = "ehr.db"
 
 def register_patient():
     print("\n ---REGISTER NEW PATIENT---")
     
-    first_name = input("First name: ")
-    last_name = input("Last name: ")
-    dob = input("date of birth(YYYY-MM-DD): ")
-    sex = input("Sex: ")
-    phone = input("Phone number: ")
+    first_name = get_valid_name("First name: ")
+    last_name = get_valid_name("Last name: ")
+    dob = get_valid_dob()
+    sex = get_valid_sex()
+    phone = get_valid_phone()
     address = input("Address: ")
-    emergency_contact = input("Emergency contact number: ")
-    condition = input("Current condition: ")
-    allergies = input("Allergies: ")
+    emergency_contact = get_valid_phone()
+    condition = get_valid_medical_text("Current Condition")
+    allergies = get_valid_medical_text("Allergies: ")
     
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
@@ -63,6 +69,7 @@ def show_patients():
                     last_name,
                     dob,
                     sex,
+                    phone,
                     condition,
                     allergies
                     FROM patients
@@ -85,8 +92,9 @@ def show_patients():
             f"Name: {patient[1]} {patient[2]} | "
             f"DOB : {patient[3]} | "
             f"Sex: {patient[4]} | "
-            f"Condition: {patient[5]} |"
-            f"Allergies: {patient[6]} |"
+            f"Phone: {patient[5]}"
+            f"Condition: {patient[6]} |"
+            f"Allergies: {patient[7]} |"
             )
 def find_patients():
     patient_id = int(input("Enter patient Id: "))
@@ -95,7 +103,7 @@ def find_patients():
     cursor = conn.cursor()
     
     cursor.execute(
-                "SELECT * FROM patients WHERE id = ?", (patient_id,)
+                "SELECT * FROM patients WHERE patient_id = ?", (patient_id,)
                 )
     patient = cursor.fetchone()
     conn.close()
@@ -106,14 +114,50 @@ def find_patients():
         
     else:
         print("Patient not found.")
-        
 
+def update_patient():
+    patient_id = int(input("Enter patient ID: "))
+    
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM patients where patient_id = ?", (patient_id,))
+    
+    patient = cursor.fetchone()
+    
+    if not patient:
+        print("Patient nof found.")
+        conn.close()
+        return
+    
+    print("\n---UPDATE PATIENT---")
+    phone = input("Enter New phone number: ")
+    address = input("Enter New address: ")
+    condition = input("New condition: ")
+    allergies = input("New Allergies: ")
+    
+    cursor.execute("""
+                    UPDATE patients
+                    SET phone = ?,
+                        address = ?,
+                        condition = ?,
+                        allergies = ?
+                    WHERE patient_id = ?
+                    """, (
+                        phone, address, condition, allergies, patient_id
+                        ))
+    conn.commit()
+    conn.close()
+    print("Patient Updated Successfully.")
+                    
+    
 while True:
     print("\n---PATIENT MENU---")
     print("1. Register a new patient")
     print("2. Show Patients")
     print("3. Find Patients")
-    print("4. Exit")
+    print("4. Update Patient")
+    print("5. Exit")
     
     choice = int(input("Choose an option: "))
     if choice == 1:
@@ -128,6 +172,9 @@ while True:
         find_patients()
         
     elif choice == 4:
+        update_patient()
+        
+    elif choice == 5:
         print("Exiting Patient System.")
         break
     

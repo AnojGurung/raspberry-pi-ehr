@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 def get_valid_name(prompt):
     while True:
         name = input(prompt).strip()
@@ -12,21 +15,27 @@ def get_valid_dob():
     while True:
         dob = input("Date of birth (yyyy-mm-dd): ").strip()
         
-        parts = dob.split("-")
-        
-        if (
-            len(parts) == 3
-            and len(parts[0]) == 4
-            and len(parts[1]) == 2
-            and len(parts[2]) == 2
-            and all(part.isdigit() for part in parts)
-            ):
+        try:
+            birth_date = datetime.strptime(dob, "%y-%m-%d").date()
+            today = datetime.today().date()
+            
+            if birth_date > today:
+                print("Date of birth cannot be in future.")
+                continue
+            
+            if birth_date.year < 1900:
+                print("Year is too old. Enter a Valid Year.")
+                continue
+            
             return dob
-        print("Invalid DOB. Use YYY-MM-DD format with numbers only.")
+        
+        except ValueError:
+            print("Invalid date. Use a real data in YYYY-MM-DD format.")
+            
         
 def get_valid_sex():
     while True:
-        sex = input("Sex (M/F/Others): ").strip.lower()
+        sex = input("Sex (M/F/Others): ").strip().lower()
         
         if sex in ["m", "f", "others"]:
             return sex
@@ -35,7 +44,7 @@ def get_valid_sex():
         
 def get_valid_phone():
     while True:
-        phone = input("Phone number:").strip()
+        phone = input("Phone number: ").strip()
         
         if phone.isdigit() and len(phone) == 10:
             return phone

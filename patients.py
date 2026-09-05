@@ -149,15 +149,46 @@ def update_patient():
     conn.commit()
     conn.close()
     print("Patient Updated Successfully.")
-                    
+      
+def del_patient():
+    patient_id = input("Enter patient id: ")
     
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    
+    cursor.execute(
+                    "SELECT * FROM patients WHERE patient_id = ?", (patient_id,))
+
+    patient = cursor.fetchone()
+    
+    if not patient:
+        print("Patient not found.")
+        conn.close()
+        return
+    
+    print("\nPatient Found.")
+    print(patient)
+    
+    confirm = input("Are you sure you want to delete this patient? (y/n): ").strip().lower()
+    if confirm == "y":
+        cursor.execute("DELETE FROM patients WHERE patient_id = ?", (patient_id,))
+        
+        conn.commit()
+        print("Patient Deleted Successfully.")
+        
+    else:
+        print("Delete Cancelled.")
+    conn.close()
+        
+
 while True:
     print("\n---PATIENT MENU---")
     print("1. Register a new patient")
     print("2. Show Patients")
     print("3. Find Patients")
     print("4. Update Patient")
-    print("5. Exit")
+    print("5. Delete Patient")
+    print("6. Exit")
     
     choice = int(input("Choose an option: "))
     if choice == 1:
@@ -175,6 +206,9 @@ while True:
         update_patient()
         
     elif choice == 5:
+        del_patient()
+        
+    elif choice == 6:
         print("Exiting Patient System.")
         break
     

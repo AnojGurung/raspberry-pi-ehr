@@ -59,6 +59,14 @@ def get_valid_medical_text(prompt):
             
         print("Input cannot be empty.")
         
+def get_valid_date(prompt):
+    while True:
+        date_text = input(prompt).strip()
         
+        try:
+            valid_date = datetime.strptime(date_text, "%y-%m-%d").date()
+            return date_text
         
+        except ValueError:
+            print("Invalid data. Use a real date in YYY-MM-DD format.")
         

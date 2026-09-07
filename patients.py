@@ -6,6 +6,8 @@ from validation import (get_valid_name,
                         get_valid_phone,
                         get_valid_medical_text)
 
+from visits import add_visit, show_patient_visits
+
 DATABASE = "ehr.db"
 
 def register_patient():
@@ -188,7 +190,9 @@ while True:
     print("3. Find Patients")
     print("4. Update Patient")
     print("5. Delete Patient")
-    print("6. Exit")
+    print("6. Add Visit")
+    print("7. Show Patient Visits")
+    print("8. Exit")
     
     choice = int(input("Choose an option: "))
     if choice == 1:
@@ -209,6 +213,12 @@ while True:
         del_patient()
         
     elif choice == 6:
+        add_visit()
+        
+    elif choice == 7:
+        show_patient_visits()
+    
+    elif choice == 8:
         print("Exiting Patient System.")
         break
     

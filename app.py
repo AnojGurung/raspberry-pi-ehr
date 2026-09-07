@@ -20,10 +20,23 @@ cursor.execute("""
                    )
                """)
 
+print("Patient database created successfully.")
+
+
+
+cursor.execute("""
+                CREATE TABLE IF NOT EXISTS visits(
+                visit_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                patient_id INTEGER NOT NULL,
+                visit_date TEXT NOT NULL,
+                provider TEXT,
+                reason TEXT,
+                notes TEXT,
+                FOREIGN KEY (patient_id) REFERENCES patients(patient_id)
+                )
+                """)
 conn.commit()
 conn.close()
-
-print("Patient database created successfully.")
 
 
 

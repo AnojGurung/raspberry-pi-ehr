@@ -35,6 +35,24 @@ cursor.execute("""
                 FOREIGN KEY (patient_id) REFERENCES patients(patient_id)
                 )
                 """)
+
+cursor.execute("""
+                CREATE TABLE IF NOT EXISTS vitals(
+                vital_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                patient_id INTEGER NOT NULL,
+                measurement_date TEXT NOT NULL,
+                systolic_bp INTEGER,
+                diastolic_bp INTEGER,
+                heart_rate INTEGER,
+                temperature REAL,
+                weight REAL,
+                height REAL,
+                bmi REAL,
+                FOREIGN KEY(patient_id) REFERENCES patients(patient_id)
+                )
+                """)
+
+
 conn.commit()
 conn.close()
 

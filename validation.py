@@ -62,11 +62,19 @@ def get_valid_medical_text(prompt):
 def get_valid_date(prompt):
     while True:
         date_text = input(prompt).strip()
-        
+
+        if date_text.isdigit() and len(date_text) == 8:
+            date_text = (
+                date_text[:4]
+                + "-"
+                + date_text[4:6]
+                + "-"
+                + date_text[6:]
+            )
+
         try:
-            valid_date = datetime.strptime(date_text, "%y-%m-%d").date()
+            datetime.strptime(date_text, "%Y-%m-%d").date()
             return date_text
-        
+
         except ValueError:
-            print("Invalid data. Use a real date in YYY-MM-DD format.")
-        
+            print("Invalid date. Enter 8 digits as YYYYMMDD.")

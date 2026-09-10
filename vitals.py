@@ -57,8 +57,36 @@ def add_vitals():
     print("Vitals added successfully.")
     print("Heart rate:", heart_rate, "BPM")
 
-add_vitals()
 
+def show_patient_vitals():
+    patient_id = input("Enter patient id: ")
+    
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+                    SELECT vital_id,
+                    measurement_date,
+                    heart_rate
+                    FROM vitals WHERE patient_id =?
+                    ORDER BY measurement_date
+                    """, (patient_id,))
+    
+    vitals = cursor.fetchall()
+    conn.close()
+    
+    if not vitals:
+        print("No vitals found for this patient.")
+        return
+    
+    print("\n---PATIENT VITALS---")
+    
+    for vital in vitals:
+        print(f"Vital ID: {vital[0]} | "
+              f"Data: {vital[1]} | "
+              f"Heart rate: {vital[2]} BPM"
+              )
+        
     
     
     

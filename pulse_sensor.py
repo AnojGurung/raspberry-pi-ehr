@@ -105,9 +105,12 @@ def get_heart_rate():
     print("Median time between beats: ", round(median_interval, 2), "seconds")
     print("Estimated heart rate: ", bpm, "BPM")
         
-    return bpm
-        
-        
+    return {
+        "bpm":bpm,
+        "beat_times":beat_times,
+        "intervals": intervals,
+        "median_interval": median_interval
+        }
         
         
         

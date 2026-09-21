@@ -18,7 +18,7 @@ def add_visit():
         conn.close()
         return
     
-    visit_date = geet_valid_date("Visit date (YYYY-MM-DD): ")
+    visit_date = get_valid_date("Visit date (YYYY-MM-DD): ")
     provider = input("Provider Name: ")
     reason = input("Reason for visit: ")
     notes = input("Visit notes: ")

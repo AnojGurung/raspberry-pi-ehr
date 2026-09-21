@@ -52,6 +52,31 @@ cursor.execute("""
                 )
                 """)
 
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS study_data (
+        study_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        patient_id INTEGER NOT NULL,
+
+        age INTEGER,
+        sex TEXT,
+        practice_id INTEGER,
+        deprivation_score REAL,
+        smoking INTEGER,
+
+        measurement_date TEXT,
+
+        bmi REAL,
+        systolic_bp INTEGER,
+        heart_rate INTEGER,
+
+        treatment INTEGER,
+        hospitalized INTEGER,
+        hospitalization_date TEXT,
+
+        FOREIGN KEY (patient_id)
+        REFERENCES patients(patient_id)
+        )
+        """)
 
 conn.commit()
 conn.close()

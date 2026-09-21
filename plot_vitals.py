@@ -15,7 +15,7 @@ df = pd.read_sql_query("""
 conn.close()
 
 df["measurement_date"] = pd.to_datetime(df["measurement_date"])
-
+print(df)
 plt.plot(
     df["measurement_date"],
     df["heart_rate"],

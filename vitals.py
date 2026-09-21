@@ -43,13 +43,13 @@ def add_vitals():
         patient_id,
         measurement_date,
         heart_rate
-    )
-    VALUES (?, ?, ?)
-""", (
-    patient_id,
-    measurement_date,
-    heart_rate
-))
+            )
+        VALUES (?, ?, ?)
+            """, (
+        patient_id,
+        measurement_date,
+        heart_rate
+            ))
     
     conn.commit()
     conn.close()
@@ -87,7 +87,8 @@ def show_patient_vitals():
               f"Heart rate: {vital[2]} BPM"
               )
         
-    
+if __name__=="__main__":
+    add_vitals()
     
     
     

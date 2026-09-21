@@ -13,24 +13,25 @@ def get_valid_name(prompt):
         
 def get_valid_dob():
     while True:
-        dob = input("Date of birth (yyyy-mm-dd): ").strip()
+        dob = input("Enter date of birth (YYYYMMDD: )").strip()
         
+        if dob.isdigit() and len(dob) == 8:
+            dob = dob[:4] + "-" + dob[4:6] + "-" + dob[6:]
+            
         try:
-            birth_date = datetime.strptime(dob, "%y-%m-%d").date()
+            birth_date = datetime.strptime(dob, "%Y-%m-%d").date()
             today = datetime.today().date()
             
             if birth_date > today:
-                print("Date of birth cannot be in future.")
+                print("Date of birth cannot be in the future.")
                 continue
-            
             if birth_date.year < 1900:
-                print("Year is too old. Enter a Valid Year.")
+                print("Year is too old. Enter a valid year.")
                 continue
             
             return dob
-        
         except ValueError:
-            print("Invalid date. Use a real data in YYYY-MM-DD format.")
+            print("Invalid Date. Enter a real data as YYYYMMDD.")
             
         
 def get_valid_sex():

@@ -20,7 +20,7 @@ def register_patient():
     phone = get_valid_phone()
     address = input("Address: ")
     emergency_contact = get_valid_phone()
-    condition = get_valid_medical_text("Current Condition")
+    condition = get_valid_medical_text("Current Condition: ")
     allergies = get_valid_medical_text("Allergies: ")
     
     conn = sqlite3.connect(DATABASE)
